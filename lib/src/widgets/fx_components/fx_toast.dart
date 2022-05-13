@@ -25,7 +25,6 @@ class FxToast extends StatelessWidget {
           color: _getShadowColor(toastType),
         ),
         border(color: _getBgColor(toastType), width: 1),
-        crossAxis(CrossAxisAlignment.start),
         paddingHorizontal(12),
         paddingVertical(12),
         rounded(6),
@@ -41,11 +40,6 @@ class FxToast extends StatelessWidget {
         _toastMessageVariant(
           textStyle(ThemeTextRegular.sm),
         ),
-        _toastIconVariant(height(32), width(32), marginLeft(12)),
-        _toastCloseIconVariant(
-          height(16),
-          width(16),
-        ),
       );
 
   @override
@@ -53,25 +47,19 @@ class FxToast extends StatelessWidget {
     return Box(
       mix: toastMix,
       child: toastMix.row(children: [
-        Box(
-          variant: _toastIconVariant,
-          child: HeroIcon(_getIcons(toastType)),
+        HeroIcon(
+          _getIcons(toastType),
+          size: 32,
         ),
-        Box(
-          child: toastMix.column(children: [
-            Box(
-              variant: _toastTitleVariant,
-              child: TextMix(toastTitle),
-            ),
-            Box(
-              variant: _toastMessageVariant,
-              child: TextMix(toastMessage),
-            ),
-          ]),
-        ),
+        toastMix.column(children: [
+          TextMix(toastTitle, variant: _toastTitleVariant),
+          TextMix(toastMessage, variant: _toastMessageVariant),
+        ]),
         const Spacer(),
-        const Box(
-            variant: _toastCloseIconVariant, child: HeroIcon(HeroIcons.x)),
+        const HeroIcon(
+          HeroIcons.x,
+          size: 16,
+        ),
       ]),
     );
   }
@@ -91,11 +79,11 @@ class FxToast extends StatelessWidget {
     switch (toastType) {
       case ToastType.error:
         return const Color(0xFFD70000)
-            .withOpacity(10); //added by Galymzhan red color
+            .withOpacity(0.1); //added by Galymzhan red color
       case ToastType.warning:
-        return const Color(0xFFD70000).withOpacity(10);
+        return const Color(0xFFD70000).withOpacity(0.1);
       default:
-        return const Color(0xFF52D700).withOpacity(10);
+        return const Color(0xFF52D700).withOpacity(0.1);
     }
   }
 
