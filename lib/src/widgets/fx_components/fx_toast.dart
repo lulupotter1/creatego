@@ -1,11 +1,6 @@
 import 'package:creatego/creatego_theme.dart';
 import 'package:mix/mix.dart';
 
-const _toastTitleVariant = Variant('toastTitleVariant');
-const _toastMessageVariant = Variant('toastMessageVariant');
-const _toastIconVariant = Variant('toastIconVariant');
-const _toastCloseIconVariant = Variant('toastCloseIconVariant');
-
 class FxToast extends StatelessWidget {
   final ToastType toastType;
   final String toastTitle;
@@ -29,17 +24,19 @@ class FxToast extends StatelessWidget {
         paddingVertical(12),
         rounded(6),
         bgColor(_getBgColor(toastType)),
-        _toastTitleVariant(
-            textStyle(const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: "NotoSansMedium",
-              fontStyle: FontStyle.normal,
-              fontSize: 16.0,
-            )),
-            marginBottom(2)),
-        _toastMessageVariant(
-          textStyle(ThemeTextRegular.sm),
-        ),
+      );
+
+  Mix get _toastTitleVariant => Mix(
+        textStyle(const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontFamily: "NotoSansMedium",
+          fontStyle: FontStyle.normal,
+          fontSize: 16.0,
+        )),
+        marginBottom(2),
+      );
+  Mix get _toastMessageVariant => Mix(
+        textStyle(ThemeTextRegular.sm),
       );
 
   @override
@@ -52,8 +49,8 @@ class FxToast extends StatelessWidget {
           size: 32,
         ),
         toastMix.column(children: [
-          TextMix(toastTitle, variant: _toastTitleVariant),
-          TextMix(toastMessage, variant: _toastMessageVariant),
+          TextMix(toastTitle, mix: _toastTitleVariant),
+          TextMix(toastMessage, mix: _toastMessageVariant),
         ]),
         const Spacer(),
         const HeroIcon(
