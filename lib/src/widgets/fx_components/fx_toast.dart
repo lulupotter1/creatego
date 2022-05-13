@@ -13,6 +13,7 @@ class FxToast extends StatelessWidget {
   }) : super(key: key);
 
   Mix get toastMix => Mix(
+        width(320),
         shadow(
           blurRadius: 26,
           offset: const Offset(0, 2),
