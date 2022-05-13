@@ -1,10 +1,13 @@
 import 'package:creatego/creatego_theme.dart';
 import 'package:mix/mix.dart';
 
+const toastShadow = Variant('toastShadow');
+
 class FxToast extends StatelessWidget {
   final ToastType toastType;
   final String toastTitle;
   final String toastMessage;
+
   const FxToast({
     Key? key,
     this.toastType = ToastType.success,
@@ -14,11 +17,15 @@ class FxToast extends StatelessWidget {
 
   Mix get toastMix => Mix(
         width(320),
-        shadow(
-          blurRadius: 26,
-          offset: const Offset(0, 2),
-          spreadRadius: 0,
-          color: _getShadowColor(toastType),
+        mainAxis(MainAxisAlignment.start),
+        crossAxis(CrossAxisAlignment.start),
+        toastShadow(
+          shadow(
+            blurRadius: 26,
+            offset: const Offset(0, 2),
+            spreadRadius: 0,
+            color: _getShadowColor(toastType),
+          ),
         ),
         border(color: _getBgColor(toastType), width: 1),
         paddingHorizontal(12),
@@ -36,6 +43,7 @@ class FxToast extends StatelessWidget {
         )),
         marginBottom(2),
       );
+
   Mix get _toastMessageVariant => Mix(
         textStyle(ThemeTextRegular.sm),
       );
@@ -44,12 +52,13 @@ class FxToast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Box(
       mix: toastMix,
+      variant: toastShadow,
       child: toastMix.row(children: [
         HeroIcon(
           _getIcons(toastType),
           size: 32,
         ),
-        toastMix.column(children: [
+        Column(children: [
           TextMix(toastTitle, mix: _toastTitleVariant),
           TextMix(toastMessage, mix: _toastMessageVariant),
         ]),
