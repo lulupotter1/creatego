@@ -16,6 +16,7 @@ export 'src/widgets/mixes/pressable_mix.dart';
 export 'src/components/sized_text/sized_text.dart';
 export 'src/components/spaced_column/spaced_column.dart';
 export 'src/components/spaced_row/spaced_row.dart';
+export 'src/components/dropdown/dropdown_2.dart';
 
 //Yoshop Sys
 export 'src/widgets/yoshop_sys_components/sidebar/ys_sidebar.dart';
