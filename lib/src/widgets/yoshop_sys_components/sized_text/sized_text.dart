@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SizedText extends StatelessWidget {
@@ -39,6 +38,7 @@ class SizedText extends StatelessWidget {
         style: textStyle,
         overflow: overflow,
         textAlign: textAlign,
+        softWrap: true,
         maxLines: maxLines,
       ),
     );

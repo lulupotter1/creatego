@@ -124,18 +124,22 @@ class YSInfoBanner extends StatelessWidget {
 class YSSidebar extends StatefulWidget {
   final List<YSSidebarParentItem> children;
   final String title;
-  final String infoBarUpperText;
-  final String infoBarLowerText;
+  final String? infoBarUpperText;
+  final String? infoBarLowerText;
   final VoidCallback? onMenuPressed;
   final VoidCallback? onTitlePressed;
+  final int currentIndex;
+  void Function(int)? onTabChange;
   YSSidebar(
       {Key? key,
-      this.infoBarUpperText = 'Good morning',
-      this.infoBarLowerText = 'user@yohop.com',
+      this.infoBarUpperText,
+      this.infoBarLowerText,
       this.title = 'YoShop',
       required this.children,
       this.onTitlePressed,
-      this.onMenuPressed})
+      this.onMenuPressed,
+      this.currentIndex = 0,
+      this.onTabChange})
       : super(key: key);
 
   @override
@@ -144,7 +148,6 @@ class YSSidebar extends StatefulWidget {
 
 class _YSSidebarState extends State<YSSidebar> {
   int? _expandedIndex;
-  int? _selectedTabIndex;
 
   Mix parentFlexboxMix = Mix(
     mainAxis(MainAxisAlignment.start),
@@ -163,9 +166,10 @@ class _YSSidebarState extends State<YSSidebar> {
             title: widget.title,
             onMenuPressed: widget.onMenuPressed,
             onTitlePressed: widget.onTitlePressed),
-        YSInfoBanner(
-            infoBarLowerText: widget.infoBarLowerText,
-            infoBarUpperText: widget.infoBarUpperText),
+        if (widget.infoBarLowerText != null && widget.infoBarUpperText != null)
+          YSInfoBanner(
+              infoBarLowerText: widget.infoBarLowerText!,
+              infoBarUpperText: widget.infoBarUpperText!),
         Flexible(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -188,20 +192,14 @@ class _YSSidebarState extends State<YSSidebar> {
         YSSidebarParentItem(
           title: _item.title,
           isExpanded: _expandedIndex == i,
+          isActive: i == widget.currentIndex,
           icon: _item.icon,
           onPressed: () {
-            if (_expandedIndex == i) {
-              // if (_item.children != null && _item.children!.isNotEmpty) {
-              setState(() {
-                _expandedIndex = null;
-              });
-              // }
+            if (_item.children == null || _item.children!.isEmpty) {
+              widget.onTabChange?.call(i);
             } else {
               setState(() {
-                _expandedIndex = i;
-                if (_item.onPressed != null) {
-                  _item.onPressed!();
-                }
+                _expandedIndex = _expandedIndex == i ? null : i;
               });
             }
           },
@@ -211,21 +209,12 @@ class _YSSidebarState extends State<YSSidebar> {
                     (e) => YSSidebarChildItem(
                         title: e.title,
                         icon: e.icon,
-                        isSelected: _selectedTabIndex == i,
+                        isSelected: widget.currentIndex ==
+                            (_item.children!.length +
+                                _item.children!.indexOf(e)),
                         onPressed: () {
-                          if (_selectedTabIndex == i) {
-                            // setState(() {
-                            //   _selectedTabIndex = null;
-                            // });
-                            //return;
-                          } else {
-                            setState(() {
-                              _selectedTabIndex = i;
-                            });
-                          }
-                          if (e.onPressed != null) {
-                            e.onPressed!();
-                          }
+                          widget.onTabChange!.call((_item.children!.length +
+                              _item.children!.indexOf(e)));
                         }),
                   )
                   .toList()
@@ -246,16 +235,22 @@ class YSSidebarParentItem extends StatelessWidget {
   final List<YSSidebarChildItem>? children;
 
   ///No need to pass from root YSSidebar. This is changed internally
-  final bool isExpanded;
+  bool isExpanded;
   final VoidCallback? onPressed;
-  const YSSidebarParentItem(
+
+  bool isActive;
+  YSSidebarParentItem(
       {Key? key,
       this.children,
       required this.title,
       this.icon,
       this.onPressed,
-      this.isExpanded = false})
-      : super(key: key);
+      this.isActive = false,
+      this.isExpanded = false}) {
+    if (children == null) {
+      isExpanded = isActive;
+    }
+  }
 
   Mix get iconMix => Mix(iconSize(24),
       iconColor(isExpanded ? ThemeColors.white : ThemeColors.coolgray500));

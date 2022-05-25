@@ -24,15 +24,14 @@ dependencies:
   # Additional Related Dependencies
   intl: ^0.17.0
   intl_utils: ^2.6.1
-  get: ^4.6.1
   heroicons: ^0.3.0
   dropdown_button2: ^1.0.6
   hovering: ^1.0.4
   syncfusion_flutter_datagrid: ^19.4.43
   flutter_screenutil: ^5.0.0+2
   image_picker: ^0.8.4+11
-  responsive_framework: ^0.1.7
   mix: ^0.0.6
+  pluto_grid: ^2.10.3
 
   # Database Related Dependencies
   hive: ^2.1.0
@@ -42,4 +41,5 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+
 

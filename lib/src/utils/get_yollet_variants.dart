@@ -1,33 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:creatego/src/components/buttons/button_variants.dart';
-
-ButtonSize? getYolletButtonSize(String? sizeStr) {
-  switch (sizeStr) {
-    case "xs":
-      return ButtonSize.XS;
-    case "s":
-      return ButtonSize.S;
-    case "m":
-      return ButtonSize.M;
-    case "l":
-      return ButtonSize.L;
-    case "xl":
-      return ButtonSize.XL;
-  }
-}
-
-ButtonVariant? getYolletButtonVariant(String? variantStr) {
-  switch (variantStr) {
-    case "primary":
-      return ButtonVariant.PRIMARY;
-    case "secondary":
-      return ButtonVariant.SECONDARY;
-    case "link":
-      return ButtonVariant.LINK;
-    case "ghost":
-      return ButtonVariant.GHOST;
-  }
-}
 
 TextInputType? getKeyboardType(String? kTypeStr) {
   switch (kTypeStr) {

@@ -1,6 +1,4 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../creatego_theme.dart';
+import '../../../../creatego_theme.dart';
 
 class SpacedColumn extends StatelessWidget {
   //Do not add screenUtil, Just pass double value
