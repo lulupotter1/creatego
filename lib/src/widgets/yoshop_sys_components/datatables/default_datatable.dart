@@ -49,17 +49,17 @@ class DefaultDatatable extends StatefulWidget {
 }
 
 class _DefaultDatatableState extends State<DefaultDatatable> {
-  late DataSource _dataSource;
-  late List<List<Widget>> bodyWidgets;
-  late List<GridColumn> headWidgets;
+  // late DataSource _dataSource;
+  // late List<List<Widget>> bodyWidgets;
+  // late List<GridColumn> headWidgets;
 
-  @override
-  void initState() {
-    super.initState();
-    bodyWidgets = widget.bodyWidgets;
-    headWidgets = widget.headWidgets;
-    _dataSource = DataSource(bodyWidgets);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   bodyWidgets = widget.bodyWidgets;
+  //   headWidgets = widget.headWidgets;
+  //   _dataSource = DataSource(bodyWidgets);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _DefaultDatatableState extends State<DefaultDatatable> {
           selectionMode: widget.selectionMode,
           onSelectionChanged: widget.onSelectionChanged,
           columnWidthMode: ColumnWidthMode.fill,
-          source: _dataSource,
+          source: DataSource(widget.bodyWidgets),
           frozenColumnsCount: widget.freezedColNumber,
           frozenRowsCount: widget.freezedRowNumber,
           rowHeight: widget.rowHeight ?? 50,
@@ -89,8 +89,8 @@ class _DefaultDatatableState extends State<DefaultDatatable> {
 
   List<GridColumn> _buildColumns() {
     List<GridColumn> list = [];
-    for (var element in headWidgets) {
-      int index = headWidgets.indexOf(element);
+    for (var element in widget.headWidgets) {
+      int index = widget.headWidgets.indexOf(element);
       list.add(
         GridColumn(
             columnName: element.toString(),
@@ -116,7 +116,7 @@ class _DefaultDatatableState extends State<DefaultDatatable> {
                             : ThemeColors.coolgray200),
                     right: BorderSide(
                         width: 1,
-                        color: index != headWidgets.length - 1
+                        color: index != widget.headWidgets.length - 1
                             ? ThemeColors.transparent
                             : ThemeColors.coolgray200),
                     bottom: const BorderSide(
@@ -141,8 +141,7 @@ class DataSource extends DataGridSource {
     _buildHeads(List dataGridRow) {
       List<DataGridCell<dynamic>> list = [];
       for (var element in dataGridRow) {
-        list.add(DataGridCell(
-            columnName: element.toString(), value: element.toString()));
+        list.add(DataGridCell(columnName: element.toString(), value: element));
       }
       return list;
     }

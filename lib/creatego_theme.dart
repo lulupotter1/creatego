@@ -26,6 +26,7 @@ export 'src/widgets/yoshop_sys_components/datatables/default_datatable.dart';
 export 'src/widgets/yoshop_sys_components/dropdowns/ys_dropdown.dart';
 export 'src/widgets/yoshop_sys_components/inputfields/ys_inputfield.dart';
 export 'src/widgets/yoshop_sys_components/status/ys_status.dart';
+export 'src/widgets/yoshop_sys_components/breadcrumbs/breadcrumbs.dart';
 
 //Finenex
 export 'src/widgets/fx_components/fx_box_content.dart';

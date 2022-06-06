@@ -6,16 +6,20 @@ class YSDropwdown extends StatefulWidget {
   final dynamic value;
   final List items;
   final IconData? leftIcon;
+  final IconData? rightIcon;
   String? hintText;
   bool isValueNull = false;
+  final bool enableBorder;
   final double? dpValWidth;
   final bool hasUnderline;
   final Color buttonBackgroundColor;
   final Color selectedItemBackgroundColor;
   final Color itemBackgroundColor;
+
   YSDropwdown(
       {required this.items,
       this.onChanged,
+      this.enableBorder = false,
       this.buttonBackgroundColor = ThemeColors.white,
       this.itemBackgroundColor = ThemeColors.white,
       this.selectedItemBackgroundColor = ThemeColors.blue400,
@@ -23,7 +27,8 @@ class YSDropwdown extends StatefulWidget {
       this.hasUnderline = true,
       this.value,
       this.leftIcon,
-      this.hintText}) {
+      this.hintText,
+      this.rightIcon}) {
     if (value == null) isValueNull = true;
     hintText ??= "Select element";
   }
@@ -55,7 +60,6 @@ class _YSDropwdownState extends State<YSDropwdown> {
       },
       style: ThemeTextRegular.base.copyWith(color: ThemeColors.black),
       dropdownDecoration: BoxDecoration(
-        // color: _getBgColor(),
         borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(
@@ -67,19 +71,37 @@ class _YSDropwdownState extends State<YSDropwdown> {
       value: widget.value,
       customButton: Container(
         height: 45,
-        padding: const EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(left: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
           color: widget.buttonBackgroundColor,
+          border: Border.all(
+              width: widget.enableBorder ? 1 : 0,
+              color: widget.enableBorder
+                  ? ThemeColors.coolgray300
+                  : Colors.transparent),
         ),
         child: SpacedRow(
           crossAxisAlignment: CrossAxisAlignment.center,
-          horizontalSpace: 15,
+          mainAxisAlignment: widget.rightIcon != null
+              ? MainAxisAlignment.spaceBetween
+              : MainAxisAlignment.start,
+          horizontalSpace: 5,
           children: [
             if (widget.isValueNull)
               ..._buildHint()
             else
-              ..._buildSelectedItem(context)
+              ..._buildSelectedItem(context),
+            if (widget.rightIcon != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: Icon(widget.rightIcon!,
+                    color: showUnderline
+                        ? ThemeColors.blue500
+                        : (widget.isValueNull
+                            ? ThemeColors.gray400
+                            : ThemeColors.gray700)),
+              ),
           ],
         ),
       ),

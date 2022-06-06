@@ -130,6 +130,7 @@ class YSSidebar extends StatefulWidget {
   final VoidCallback? onTitlePressed;
   final int currentIndex;
   void Function(int)? onTabChange;
+  final Widget? bottomWidget;
   YSSidebar(
       {Key? key,
       this.infoBarUpperText,
@@ -139,7 +140,8 @@ class YSSidebar extends StatefulWidget {
       this.onTitlePressed,
       this.onMenuPressed,
       this.currentIndex = 0,
-      this.onTabChange})
+      this.onTabChange,
+      this.bottomWidget})
       : super(key: key);
 
   @override
@@ -171,12 +173,19 @@ class _YSSidebarState extends State<YSSidebar> {
               infoBarLowerText: widget.infoBarLowerText!,
               infoBarUpperText: widget.infoBarUpperText!),
         Flexible(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            child: SpacedColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                verticalSpace: 8,
-                children: _buildSidebarChildren()),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                child: SpacedColumn(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    verticalSpace: 8,
+                    children: _buildSidebarChildren()),
+              ),
+              if (widget.bottomWidget != null)
+                Positioned(width: 234, bottom: 0, child: widget.bottomWidget!)
+            ],
           ),
         ),
       ]),
@@ -202,6 +211,11 @@ class _YSSidebarState extends State<YSSidebar> {
                 _expandedIndex = _expandedIndex == i ? null : i;
               });
             }
+            if(_item.onPressed!=null){
+              _item.onPressed!();
+            }
+            
+
           },
           children: _item.children != null && _item.children!.isNotEmpty
               ? _item.children!

@@ -12,6 +12,16 @@ class ApiResponse {
   dynamic data;
   RequestOptions? requestOptions;
 
+  toJson() {
+    return {
+      'resMessage': resMessage,
+      'resCode': resCode,
+      'success': success,
+      'data': data,
+      'requestOptions': requestOptions,
+    };
+  }
+
   ApiResponse(
       {this.resMessage,
       this.resCode,
@@ -46,9 +56,13 @@ extension FutureExceptionHandler on Future {
           _apiResponse.requestOptions = _dioError.requestOptions;
           switch (_errorType) {
             case DioErrorType.response:
-              _apiResponse.resCode = _dioError.response!.statusCode;
-              _apiResponse.resMessage = _dioError.response!.statusMessage;
-              _apiResponse.data = _dioError.response!.data;
+              if (errrorRes.response != null) {
+                _apiResponse.resCode = _dioError.response!.statusCode;
+                _apiResponse.resMessage = _dioError.response!.statusMessage;
+                _apiResponse.data = _dioError.response!.data;
+              } else {
+                _apiResponse.resMessage = _dioError.error.toString();
+              }
               break;
             case DioErrorType.other:
               Type _otherErrorType = _dioError.error.runtimeType;
